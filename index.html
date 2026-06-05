@@ -984,8 +984,8 @@ window.INFORME_IMAGES = {
     /*  SECTION  */
     .sticky-webkit { position: -webkit-sticky; position: sticky; top: 0; }
     section { padding: 72px 24px; max-width: 1200px; margin: 0 auto; }
-    .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--teal); margin-bottom: 10px; }
-    .section-title { font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 700; margin-bottom: 36px; color: var(--dark); }
+    .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--teal); margin-bottom: 10px; text-align: center; display: block; }
+    .section-title { font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 700; margin-bottom: 36px; color: var(--dark); text-align: center; }
     .section-title span { color: var(--green); }
 
     /*  KPI  */
@@ -1888,6 +1888,15 @@ window.INFORME_IMAGES = {
 <div class="divider"></div>
 
 <!-- ══════ VELOCIDAD + NUEVOS CONCEPTOS ══════ -->
+<section id="sec-treeshaking">
+  <div class="section-label">Optimizacion de bundle</div>
+  <div class="section-title">Tree Shaking &mdash; <span>solo llega lo necesario</span></div>
+  <div id="ts-intro" style="max-width:700px;margin:0 auto 32px;text-align:center;font-size:15px;color:var(--muted);line-height:1.8"></div>
+  <div id="ts-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:28px"></div>
+  <div id="ts-warning" style="background:#fef3c7;border:1px solid #f59e0b;border-radius:12px;padding:16px 20px;font-size:13px;color:#92400e;margin-bottom:16px"></div>
+  <div id="ts-conclusion" style="background:var(--gradient2);border-radius:16px;padding:24px 32px;color:#fff;font-size:15px;line-height:1.7;text-align:center;font-weight:500"></div>
+</section>
+<div class="divider"></div>
 <section id="sec-velocidad">
   <div class="section-label">Velocidad como ventaja competitiva</div>
   <div class="section-title">Esta velocidad habilita <span>nuevos conceptos</span></div>
@@ -2055,7 +2064,7 @@ if (sbv) {
 
   if (el('sbv-intro')) el('sbv-intro').innerHTML = bold(sbv.intro, ['documentación viva','contrato visual','onboarding','testing','design system']);
   if (el('sbv-pilares')) el('sbv-pilares').innerHTML = sbv.pilares.map(p =>
-    '<div class="sbv-pilar" style="border-top:3px solid ' + sbBM[p.color] + '">' +
+    '<div class="sbv-pilar"> ' +
     '<div class="sbv-pilar-header"><span class="sbv-pilar-icon">' + p.icon + '</span><h3>' + p.titulo + '</h3></div>' +
     '<p class="sbv-pilar-desc">' + p.descripcion + '</p>' +
     '<ul class="sbv-pilar-details">' + p.detalles.map(d => '<li>' + d + '</li>').join('') + '</ul>' +
@@ -2078,7 +2087,7 @@ if (se) {
   if (el('stack-porque-list')) el('stack-porque-list').innerHTML = se.porQueAhora.map(p => '<li>' + p + '</li>').join('');
   if (el('stack-upgrades')) el('stack-upgrades').innerHTML = se.upgrades.map(u => {
     const ec = eCM[u.estado] || { bg:'rgba(0,0,0,0.06)', c:'#767676' };
-    return '<div class="stack-card" style="border-left:3px solid ' + (cBC[u.color]||'var(--border)') + '">' +
+    return '<div class="stack-card"> ' +
       '<div class="stack-card-header"><div class="stack-tech"><span class="stack-tech-icon">' + u.icon + '</span><span class="stack-tech-name">' + u.tech + '</span></div>' +
       '<div class="stack-badges"><span class="stack-estado" style="background:' + ec.bg + ';color:' + ec.c + '">' + u.estado + '</span><span class="stack-riesgo">Riesgo: ' + u.riesgo + '</span></div></div>' +
       '<p class="stack-desc">' + u.descripcion + '</p>' +
@@ -2156,7 +2165,7 @@ if (mf) {
   if (el('merma-intro')) el('merma-intro').innerHTML = bold(mf.intro, ['deuda técnica','tests','infraestructura de testing','volumen de tokens','rol de la IA']);
   const fCM = { red:'#dc2626', gold:'#d97706', green:'#279d2e' };
   if (el('merma-fases')) el('merma-fases').innerHTML = mf.fases.map(f =>
-    '<div class="merma-fase" style="border-left:3px solid ' + (fCM[f.color]||'#ccc') + '">' +
+    '<div class="merma-fase"> ' +
     '<div class="merma-fase-header"><div class="merma-fase-title">' + f.icon + ' ' + f.nombre + '</div>' +
     '<div class="merma-nivel-wrap"><span class="merma-nivel-label">Tokens</span>' +
     '<div class="merma-nivel-bar"><div class="merma-nivel-fill" data-width="' + f.nivel + '" style="width:0%;background:' + (fCM[f.color]||'#ccc') + '"></div></div>' +
@@ -2190,6 +2199,20 @@ if (fvb) {
   if (el('fvb-analogia')) el('fvb-analogia').textContent = fvb.analogia;
 }
 
+
+//  TREE SHAKING 
+const ts = D && D.stackEvolucion && D.stackEvolucion.treeshaking;
+if (ts) {
+  if (el('ts-intro')) el('ts-intro').innerHTML = ts.que.replace(/(bundle|tree shaking|sideEffects|barrel|deep import)/gi, '<strong>$1</strong>');
+  if (el('ts-cards')) el('ts-cards').innerHTML = ts.como.map(c =>
+    '<div class="imp-card" style="text-align:left">' +
+    '<div style="font-size:24px;margin-bottom:10px">' + c.icon + '</div>' +
+    '<h4 style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:8px">' + c.titulo + '</h4>' +
+    '<p style="font-size:13px;color:var(--muted);line-height:1.7">' + c.texto + '</p></div>'
+  ).join('');
+  if (el('ts-warning')) el('ts-warning').innerHTML = '<strong> Regla crítica: </strong>' + ts.advertencia;
+  if (el('ts-conclusion')) el('ts-conclusion').innerHTML = ts.conclusion;
+}
 //  ANIMATE ALL PROGRESS BARS ON SCROLL 
 const allBars = document.querySelectorAll('[data-width]');
 observeOrRun(allBars, 0.3, function(node) {
